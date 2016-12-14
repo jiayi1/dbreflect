@@ -141,21 +141,6 @@ public abstract class DataBase {
         return isDelSuccessCount;
     }
 
-
-
-
-    class ReflectEntity{
-        String tableName;
-        ArrayList<Field> fields;
-    }
-
-    /**
-     * 返回当前的 SQLiteOpenHelper 对象，可使用该对象执行更加复杂的数据库操作
-     */
-    public SQLiteOpenHelper getSQLiteOpenHelper() {
-        return sqlDataBase;
-    }
-
     protected void upgrageDB(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
