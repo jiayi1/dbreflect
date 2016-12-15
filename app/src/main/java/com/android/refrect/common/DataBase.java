@@ -2,12 +2,13 @@ package com.android.refrect.common;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.android.refrect.App;
 import com.android.refrect.model.BaseEntity;
+
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public abstract class DataBase {
 
         public OpenDataBase() {
             super(App.appContext, getDBName(), null, getVersion());
+            SQLiteDatabase.loadLibs(App.appContext);
         }
 
         @Override
@@ -94,7 +96,7 @@ public abstract class DataBase {
         }
         Field[] fields = klass.getFields();
         if (!tabName.isEmpty()) {
-            Cursor cursor = sqlDataBase.getReadableDatabase().query(tabName, null, null, null, null, null, null, null);
+            Cursor cursor = sqlDataBase.getReadableDatabase("123456").query(tabName, null, null, null, null, null, null, null);
             while (cursor.moveToNext()) {
                 try {
                     T t = klass.newInstance();
@@ -127,7 +129,7 @@ public abstract class DataBase {
         if (klass.isAnnotationPresent(Table.class)) {
             tabName = klass.getAnnotation(Table.class).name();
         }
-        isDelSuccessCount = sqlDataBase.getWritableDatabase().delete(tabName,"name = ?",new String[]{selectSql}) ;
+        isDelSuccessCount = sqlDataBase.getWritableDatabase("123456").delete(tabName,"name = ?",new String[]{selectSql}) ;
         return isDelSuccessCount;
     }
 
@@ -137,7 +139,7 @@ public abstract class DataBase {
         if (klass.isAnnotationPresent(Table.class)) {
             tabName = klass.getAnnotation(Table.class).name();
         }
-        isDelSuccessCount = sqlDataBase.getWritableDatabase().update(tabName,values,"name = ?",new String[]{selectSql}) ;
+        isDelSuccessCount = sqlDataBase.getWritableDatabase("123456").update(tabName,values,"name = ?",new String[]{selectSql}) ;
         return isDelSuccessCount;
     }
 

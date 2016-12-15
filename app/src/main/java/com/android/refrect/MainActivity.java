@@ -92,6 +92,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if(db == null){
             db = new UserDB();
         }
+
     }
 
     @Override
@@ -115,6 +116,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     class MyAdapter extends BaseAdapter {
 
+        private int xml1 = 1;
+        private int xml2 = 2;
+
+
         @Override
         public int getCount() {
             if(list != null ){
@@ -137,6 +142,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
         @Override
+        public int getItemViewType(int position) {
+            if(position % 2 ==0){
+                return xml1;
+            }else {
+                return xml2;
+            }
+        }
+
+        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             Holder holder = null;
             if(convertView == null){
@@ -150,6 +164,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
             UserDB.Entity enti = list.get(position);
             if(enti != null){
                 holder.tv.setText(enti.useName+" , "+enti.addr);
+                int type = getItemViewType(position);
+                if(type == xml1){
+                    holder.tv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }else {
+                    holder.tv.setTextColor(getResources().getColor(R.color.colorAccent));
+
+                }
+
             }
             return convertView;
         }

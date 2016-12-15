@@ -67,7 +67,7 @@ public class UserDB extends DataBase {
         ContentValues values = new ContentValues();
         values.put("name",name);
         values.put("addr",addr);
-        sqlDataBase.getWritableDatabase().insert("personal",null,values);
+        sqlDataBase.getWritableDatabase("123456").insert("personal",null,values);
     }
     public ArrayList<Entity> queryAll(){
         ArrayList<Entity> list = query(Entity.class);
@@ -80,7 +80,6 @@ public class UserDB extends DataBase {
         return null;
     }
 
-    @Override
     protected void upgrageDB(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(newVersion > oldVersion){
             Log.i("info","drop table liu if exists");
